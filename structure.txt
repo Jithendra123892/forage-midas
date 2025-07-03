@@ -1,0 +1,132 @@
+Folder PATH listing for volume Windows-SSD
+Volume serial number is 2A2E-183B
+C:.
+│   .gitignore
+│   application.yml
+│   mvnw
+│   mvnw.cmd
+│   pom.xml
+│   README.md
+│   structure.txt
+│   
+├───.mvn
+│   └───wrapper
+│           maven-wrapper.jar
+│           maven-wrapper.properties
+│           
+├───services
+│       transaction-incentive-api.jar
+│       
+├───src
+│   ├───main
+│   │   └───java
+│   │       └───com
+│   │           └───jpmc
+│   │               └───midascore
+│   │                   │   MidasCoreApplication.java
+│   │                   │   
+│   │                   ├───component
+│   │                   │       DatabaseConduit.java
+│   │                   │       
+│   │                   ├───entity
+│   │                   │       UserRecord.java
+│   │                   │       
+│   │                   ├───foundation
+│   │                   │       Balance.java
+│   │                   │       Transaction.java
+│   │                   │       
+│   │                   └───repository
+│   │                           UserRepository.java
+│   │                           
+│   └───test
+│       ├───java
+│       │   └───com
+│       │       └───jpmc
+│       │           └───midascore
+│       │                   BalanceQuerier.java
+│       │                   FileLoader.java
+│       │                   KafkaProducer.java
+│       │                   TaskFiveTests.java
+│       │                   TaskFourTests.java
+│       │                   TaskOneTests.java
+│       │                   TaskThreeTests.java
+│       │                   TaskTwoTests.java
+│       │                   UserPopulator.java
+│       │                   
+│       └───resources
+│           └───test_data
+│                   alskdjfh.fhdjsk
+│                   lkjhgfdsa.hjkl
+│                   mnbvcxz.vbnm
+│                   poiuytrewq.uiop
+│                   rueiwoqp.tyruei
+│                   
+└───target
+    ├───classes
+    │   └───com
+    │       └───jpmc
+    │           └───midascore
+    │               │   MidasCoreApplication.class
+    │               │   
+    │               ├───component
+    │               │       DatabaseConduit.class
+    │               │       
+    │               ├───entity
+    │               │       UserRecord.class
+    │               │       
+    │               ├───foundation
+    │               │       Balance.class
+    │               │       Transaction.class
+    │               │       
+    │               └───repository
+    │                       UserRepository.class
+    │                       
+    ├───generated-sources
+    │   └───annotations
+    ├───generated-test-sources
+    │   └───test-annotations
+    ├───maven-status
+    │   └───maven-compiler-plugin
+    │       ├───compile
+    │       │   └───default-compile
+    │       │           createdFiles.lst
+    │       │           inputFiles.lst
+    │       │           
+    │       └───testCompile
+    │           └───default-testCompile
+    │                   createdFiles.lst
+    │                   inputFiles.lst
+    │                   
+    ├───surefire-reports
+    │       com.jpmc.midascore.TaskFiveTests.txt
+    │       com.jpmc.midascore.TaskFourTests.txt
+    │       com.jpmc.midascore.TaskOneTests.txt
+    │       com.jpmc.midascore.TaskThreeTests.txt
+    │       com.jpmc.midascore.TaskTwoTests.txt
+    │       TEST-com.jpmc.midascore.TaskFiveTests.xml
+    │       TEST-com.jpmc.midascore.TaskFourTests.xml
+    │       TEST-com.jpmc.midascore.TaskOneTests.xml
+    │       TEST-com.jpmc.midascore.TaskThreeTests.xml
+    │       TEST-com.jpmc.midascore.TaskTwoTests.xml
+    │       
+    └───test-classes
+        ├───com
+        │   └───jpmc
+        │       └───midascore
+        │               BalanceQuerier.class
+        │               FileLoader.class
+        │               KafkaProducer.class
+        │               TaskFiveTests.class
+        │               TaskFourTests.class
+        │               TaskOneTests.class
+        │               TaskThreeTests.class
+        │               TaskTwoTests.class
+        │               UserPopulator.class
+        │               
+        └───test_data
+                alskdjfh.fhdjsk
+                lkjhgfdsa.hjkl
+                mnbvcxz.vbnm
+                poiuytrewq.uiop
+                rueiwoqp.tyruei
+                
