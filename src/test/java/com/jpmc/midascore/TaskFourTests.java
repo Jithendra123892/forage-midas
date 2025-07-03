@@ -1,5 +1,6 @@
 package com.jpmc.midascore;
 
+import com.jpmc.midascore.foundation.Transaction;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+
+import java.math.BigDecimal;
 
 @SpringBootTest
 @DirtiesContext
@@ -27,20 +30,32 @@ public class TaskFourTests {
     void task_four_verifier() throws InterruptedException {
         userPopulator.populate();
         String[] transactionLines = fileLoader.loadStrings("/test_data/alskdjfh.fhdjsk");
-        for (String transactionLine : transactionLines) {
-            kafkaProducer.send(transactionLine);
-        }
-        Thread.sleep(2000);
 
+        for (String transactionLine : transactionLines) {
+            Transaction txn = parseTransaction(transactionLine);
+            kafkaProducer.send(txn);
+        }
+
+        Thread.sleep(2000);
 
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("use your debugger to find out what wilbur's balance is after all transactions are processed");
         logger.info("kill this test once you find the answer");
+
         while (true) {
             Thread.sleep(20000);
             logger.info("...");
         }
+    }
+
+    private Transaction parseTransaction(String line) {
+        String[] parts = line.split(",");
+        Transaction txn = new Transaction();
+        txn.setSenderId(Long.parseLong(parts[0].trim()));
+        txn.setReceiverId(Long.parseLong(parts[1].trim()));
+        txn.setAmount(new BigDecimal(parts[2].trim()));
+        return txn;
     }
 }

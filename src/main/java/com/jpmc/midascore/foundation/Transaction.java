@@ -1,48 +1,44 @@
 package com.jpmc.midascore.foundation;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.math.BigDecimal;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction {
-    private long senderId;
-    private long recipientId;
-    private float amount;
+    private Long senderId;
+    private Long receiverId;
+    private BigDecimal amount;
 
-    public Transaction() {
-    }
+    public Transaction() {}
 
-    public Transaction(long senderId, long recipientId, float amount) {
-        this.senderId = senderId;
-        this.recipientId = recipientId;
-        this.amount = amount;
-    }
-
-    public long getSenderId() {
+    public Long getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(long senderId) {
+    public void setSenderId(Long senderId) {
         this.senderId = senderId;
     }
 
-    public long getRecipientId() {
-        return recipientId;
+    public Long getReceiverId() {
+        return receiverId;
     }
 
-    public void setRecipientId(long recipientId) {
-        this.recipientId = recipientId;
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
     }
 
-    public float getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 
     @Override
     public String toString() {
-        return "Transaction {senderId=" + senderId + ", recipientId=" + recipientId + ", amount=" + amount + "}";
+        return "Transaction{" +
+                "senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", amount=" + amount +
+                '}';
     }
 }

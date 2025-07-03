@@ -1,6 +1,9 @@
-general:
-  kafka-topic: test-topic
+server:
+  port: 8080
 
 spring:
   kafka:
     bootstrap-servers: localhost:9092
+
+general:
+  kafka-topic: midas.transactions

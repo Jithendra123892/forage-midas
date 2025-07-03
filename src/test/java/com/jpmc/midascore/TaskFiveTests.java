@@ -1,6 +1,7 @@
 package com.jpmc.midascore;
 
 import com.jpmc.midascore.foundation.Balance;
+import com.jpmc.midascore.foundation.Transaction;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+
+import java.math.BigDecimal;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @DirtiesContext
@@ -27,20 +30,23 @@ public class TaskFiveTests {
     @Autowired
     private BalanceQuerier balanceQuerier;
 
-
     @Test
     void task_five_verifier() throws InterruptedException {
         userPopulator.populate();
         String[] transactionLines = fileLoader.loadStrings("/test_data/rueiwoqp.tyruei");
+
         for (String transactionLine : transactionLines) {
-            kafkaProducer.send(transactionLine);
+            Transaction txn = parseTransaction(transactionLine);
+            kafkaProducer.send(txn);
         }
+
         Thread.sleep(2000);
 
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("submit the following output to complete the task (include begin and end output denotations)");
+
         StringBuilder output = new StringBuilder("\n").append("---begin output ---").append("\n");
         for (int i = 0; i < 13; i++) {
             Balance balance = balanceQuerier.query((long) i);
@@ -48,5 +54,14 @@ public class TaskFiveTests {
         }
         output.append("---end output ---");
         logger.info(output.toString());
+    }
+
+    private Transaction parseTransaction(String line) {
+        String[] parts = line.split(",");
+        Transaction txn = new Transaction();
+        txn.setSenderId(Long.parseLong(parts[0].trim()));
+        txn.setReceiverId(Long.parseLong(parts[1].trim()));
+        txn.setAmount(new BigDecimal(parts[2].trim()));
+        return txn;
     }
 }

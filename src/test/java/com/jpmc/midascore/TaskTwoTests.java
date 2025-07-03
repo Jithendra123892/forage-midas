@@ -1,5 +1,6 @@
 package com.jpmc.midascore;
 
+import com.jpmc.midascore.foundation.Transaction;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 
+import java.math.BigDecimal;
+
 @SpringBootTest
 @DirtiesContext
 @EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
-class TaskTwoTests {
+public class TaskTwoTests {
     static final Logger logger = LoggerFactory.getLogger(TaskTwoTests.class);
 
     @Autowired
@@ -23,19 +26,32 @@ class TaskTwoTests {
     @Test
     void task_two_verifier() throws InterruptedException {
         String[] transactionLines = fileLoader.loadStrings("/test_data/poiuytrewq.uiop");
+
         for (String transactionLine : transactionLines) {
-            kafkaProducer.send(transactionLine);
+            Transaction txn = parseTransaction(transactionLine);
+            kafkaProducer.send(txn);
         }
+
         Thread.sleep(2000);
+
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("----------------------------------------------------------");
         logger.info("use your debugger to watch for incoming transactions");
         logger.info("kill this test once you find the answer");
+
         while (true) {
             Thread.sleep(20000);
             logger.info("...");
         }
     }
 
+    private Transaction parseTransaction(String line) {
+        String[] parts = line.split(",");
+        Transaction txn = new Transaction();
+        txn.setSenderId(Long.parseLong(parts[0].trim()));
+        txn.setReceiverId(Long.parseLong(parts[1].trim()));
+        txn.setAmount(new BigDecimal(parts[2].trim()));
+        return txn;
+    }
 }
