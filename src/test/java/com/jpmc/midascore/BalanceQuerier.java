@@ -1,20 +1,11 @@
 package com.jpmc.midascore;
 
-import com.jpmc.midascore.foundation.Balance;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import com.jpmc.midascore.entity.UserRecord;
 
-@Component
+import java.math.RoundingMode;
+
 public class BalanceQuerier {
-    private final RestTemplate restTemplate;
-
-    public BalanceQuerier(RestTemplateBuilder builder) {
-        this.restTemplate = builder.build();
-    }
-
-    public Balance query(Long userId) {
-        String url = "http://localhost:33400/balance?userId=" + userId;
-        return restTemplate.getForObject(url, Balance.class);
+    public static int extractBalance(UserRecord user) {
+        return user.getBalance().setScale(0, RoundingMode.DOWN).intValue();
     }
 }

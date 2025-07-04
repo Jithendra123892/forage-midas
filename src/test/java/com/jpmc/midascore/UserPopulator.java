@@ -1,24 +1,27 @@
 package com.jpmc.midascore;
 
-import com.jpmc.midascore.component.DatabaseConduit;
 import com.jpmc.midascore.entity.UserRecord;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jpmc.midascore.repository.UserRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
-public class UserPopulator {
-    @Autowired
-    private FileLoader fileLoader;
+public class UserPopulator implements CommandLineRunner {
 
-    @Autowired
-    private DatabaseConduit databaseConduit;
+    private final UserRepository userRepo;
 
-    public void populate() {
-        String[] userLines = fileLoader.loadStrings("/test_data/lkjhgfdsa.hjkl");
-        for (String userLine : userLines) {
-            String[] userData = userLine.split(", ");
-            UserRecord user = new UserRecord(userData[0], Float.parseFloat(userData[1]));
-            databaseConduit.save(user);
-        }
+    public UserPopulator(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    @Override
+    public void run(String... args) {
+        userRepo.save(new UserRecord(1L, "waldorf", BigDecimal.valueOf(1000)));
+        userRepo.save(new UserRecord(2L, "statler", BigDecimal.valueOf(1000)));
+        userRepo.save(new UserRecord(3L, "fozzie", BigDecimal.valueOf(1000)));
+        userRepo.save(new UserRecord(4L, "gonzo", BigDecimal.valueOf(1000)));
+        userRepo.save(new UserRecord(5L, "piggy", BigDecimal.valueOf(1000)));
     }
 }

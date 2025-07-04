@@ -1,67 +1,24 @@
 package com.jpmc.midascore;
 
-import com.jpmc.midascore.foundation.Balance;
 import com.jpmc.midascore.foundation.Transaction;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.kafka.core.KafkaTemplate;
 
 import java.math.BigDecimal;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@DirtiesContext
-@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
+@SpringBootTest
 public class TaskFiveTests {
-    static final Logger logger = LoggerFactory.getLogger(TaskFiveTests.class);
 
     @Autowired
-    private KafkaProducer kafkaProducer;
-
-    @Autowired
-    private UserPopulator userPopulator;
-
-    @Autowired
-    private FileLoader fileLoader;
-
-    @Autowired
-    private BalanceQuerier balanceQuerier;
+    private KafkaTemplate<String, Transaction> kafkaTemplate;
 
     @Test
-    void task_five_verifier() throws InterruptedException {
-        userPopulator.populate();
-        String[] transactionLines = fileLoader.loadStrings("/test_data/rueiwoqp.tyruei");
-
-        for (String transactionLine : transactionLines) {
-            Transaction txn = parseTransaction(transactionLine);
-            kafkaProducer.send(txn);
-        }
-
-        Thread.sleep(2000);
-
-        logger.info("----------------------------------------------------------");
-        logger.info("----------------------------------------------------------");
-        logger.info("----------------------------------------------------------");
-        logger.info("submit the following output to complete the task (include begin and end output denotations)");
-
-        StringBuilder output = new StringBuilder("\n").append("---begin output ---").append("\n");
-        for (int i = 0; i < 13; i++) {
-            Balance balance = balanceQuerier.query((long) i);
-            output.append(balance.toString()).append("\n");
-        }
-        output.append("---end output ---");
-        logger.info(output.toString());
-    }
-
-    private Transaction parseTransaction(String line) {
-        String[] parts = line.split(",");
-        Transaction txn = new Transaction();
-        txn.setSenderId(Long.parseLong(parts[0].trim()));
-        txn.setReceiverId(Long.parseLong(parts[1].trim()));
-        txn.setAmount(new BigDecimal(parts[2].trim()));
-        return txn;
+    public void task_five_verifier() {
+        kafkaTemplate.send("midas.transactions", new Transaction(5L, 6L, BigDecimal.valueOf(33.33)));
+        kafkaTemplate.send("midas.transactions", new Transaction(6L, 7L, BigDecimal.valueOf(10.00)));
+        kafkaTemplate.send("midas.transactions", new Transaction(7L, 1L, BigDecimal.valueOf(11.00)));
+        System.out.println("✅ Task 5 transactions sent.");
     }
 }

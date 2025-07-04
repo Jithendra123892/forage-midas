@@ -1,28 +1,30 @@
 package com.jpmc.midascore.foundation;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Entity
 public class Balance {
-    private float amount;
 
-    public Balance() {
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Balance(float amount) {
+    private double amount;
+
+    public Balance() {}
+
+    public Balance(double amount) {
         this.amount = amount;
     }
 
-    public float getAmount() {
-        return amount;
-    }
+    public Long getId() { return id; }
+    public double getAmount() { return amount; }
 
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
+    public void setId(Long id) { this.id = id; }
+    public void setAmount(double amount) { this.amount = amount; }
 
     @Override
     public String toString() {
-        return "Balance {amount=" + amount + "}";
+        return String.format("Balance{id=%d, amount=%.2f}", id, amount);
     }
 }

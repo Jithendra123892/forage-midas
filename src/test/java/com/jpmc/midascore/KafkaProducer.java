@@ -1,15 +1,17 @@
 package com.jpmc.midascore;
 
 import com.jpmc.midascore.foundation.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class KafkaProducer {
 
-    @Autowired
-    private KafkaTemplate<String, Transaction> kafkaTemplate;
+    private final KafkaTemplate<String, Transaction> kafkaTemplate;
+
+    public KafkaProducer(KafkaTemplate<String, Transaction> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     public void send(Transaction txn) {
         kafkaTemplate.send("midas.transactions", txn);

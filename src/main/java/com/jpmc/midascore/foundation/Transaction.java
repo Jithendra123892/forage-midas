@@ -7,7 +7,15 @@ public class Transaction {
     private Long receiverId;
     private BigDecimal amount;
 
-    public Transaction() {}
+    // ✅ Default constructor for Jackson
+    public Transaction() {
+    }
+
+    public Transaction(Long senderId, Long receiverId, BigDecimal amount) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.amount = amount;
+    }
 
     public Long getSenderId() {
         return senderId;
