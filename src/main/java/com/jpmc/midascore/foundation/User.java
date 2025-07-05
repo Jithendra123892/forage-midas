@@ -3,6 +3,7 @@ package com.jpmc.midascore.foundation;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "app_user")
 public class User {
 
     @Id

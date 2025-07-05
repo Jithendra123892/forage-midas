@@ -18,9 +18,12 @@ public class TransactionRecord {
     private UserRecord receiver;
 
     public TransactionRecord() {}
+    @Column(nullable = false)
+    private BigDecimal incentive;
 
-    public TransactionRecord(BigDecimal amount, UserRecord sender, UserRecord receiver) {
+    public TransactionRecord(BigDecimal amount, BigDecimal incentive, UserRecord sender, UserRecord receiver) {
         this.amount = amount;
+        this.incentive = incentive;
         this.sender = sender;
         this.receiver = receiver;
     }

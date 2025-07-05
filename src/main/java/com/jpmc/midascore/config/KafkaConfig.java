@@ -12,6 +12,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.*;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +20,6 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 public class KafkaConfig {
-
 
     @Bean
     public ConsumerFactory<String, Transaction> consumerFactory() {
@@ -44,14 +44,13 @@ public class KafkaConfig {
         return factory;
     }
 
-
     @Bean
     public ProducerFactory<String, Transaction> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        configProps.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false); // Important for Spring Kafka
+        configProps.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
@@ -59,4 +58,7 @@ public class KafkaConfig {
     public KafkaTemplate<String, Transaction> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
+
+
+
 }

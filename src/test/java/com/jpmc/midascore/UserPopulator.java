@@ -21,7 +21,10 @@ public class UserPopulator implements CommandLineRunner {
         userRepo.save(new UserRecord(1L, "waldorf", BigDecimal.valueOf(1000)));
         userRepo.save(new UserRecord(2L, "statler", BigDecimal.valueOf(1000)));
         userRepo.save(new UserRecord(3L, "fozzie", BigDecimal.valueOf(1000)));
-        userRepo.save(new UserRecord(4L, "gonzo", BigDecimal.valueOf(1000)));
+
+        // ✅ Wilbur must have ID 4L for TaskFourTests to match
+        userRepo.save(new UserRecord(4L, "wilbur", BigDecimal.valueOf(1000)));
+
         userRepo.save(new UserRecord(5L, "piggy", BigDecimal.valueOf(1000)));
     }
 }
